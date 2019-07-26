@@ -24,7 +24,14 @@ class RealStateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required',
+            'description' => 'required',
+            'cotent' => 'required',
+            'price' => 'required' ,
+            'bedrooms' => 'required',
+            'bathrooms'=> 'required',
+            'property_area' => 'required',
+            'total_property_area' => 'required',
         ];
     }
 }
