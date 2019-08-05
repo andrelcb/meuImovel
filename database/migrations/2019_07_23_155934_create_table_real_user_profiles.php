@@ -22,7 +22,6 @@ class CreateTableRealUserProfiles extends Migration
             $table->string('mobile_phone');
 
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
