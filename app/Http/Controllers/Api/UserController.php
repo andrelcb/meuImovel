@@ -46,7 +46,7 @@ class UserController extends Controller
         Validator::make($data, [
             'phone' => 'required',
             'mobile_phone' => 'required',
-        ]);
+        ])->validate();
 
         try {
 
@@ -82,7 +82,8 @@ class UserController extends Controller
     public function show($id)
     {
         try {
-            $user = $this->user->findOrFail($id);
+            $user = $this->user->with('profile')->findOrFail($id);
+            $user->profile->social_networks = unserialize($user->profile->social_networks);
             return response()->json([
                     'data' => $user
                 ]
@@ -103,15 +104,24 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-
         if ($request->has('password') || $request->get('password')) {
             $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']);
         }
+        Validator::make($data, [
+            'profile.phone' => 'required',
+            'porfile.mobile_phone' => 'required',
+        ])->validate();
         try {
+            $profile = $data['profile'];
+            $profile['social_networks'] = serialize($profile['social_networks']);
+
             $user = $this->user->findOrFail($id);
             $user->update($data);
+
+            $user->profile->update($profile);
+
             return response()->json([
                     'data' => [
                         'msg' => 'Usuário atualizado com sucesso',
