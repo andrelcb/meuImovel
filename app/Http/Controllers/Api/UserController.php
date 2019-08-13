@@ -28,49 +28,8 @@ class UserController extends Controller
         return response()->json($users, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store()
     {
-        $data = $request->all();
-
-        if (!$request->has('password') || !$request->get('password')) {
-            $message = new ApiMessages('É necessário informar uma senha para o usuário...');
-            return response()->json($message->getMessage(), 401);
-        }
-
-        Validator::make($data, [
-            'phone' => 'required',
-            'mobile_phone' => 'required',
-        ])->validate();
-
-        try {
-
-            $data['password'] = bcrypt($data['password']);
-
-            $user = $this->user->create($data);
-
-            $user->profile()->create(
-                [
-                    'phone' => $data['phone'],
-                    'mobile_phone' => $data['mobile_phone']
-                ]
-            );
-
-            return response()->json([
-                    'data' => [
-                        'msg' => 'Usuário cadastrado com sucesso',
-                    ]
-                ]
-            );
-        } catch (\Exception $e) {
-            $message = new ApiMessages($e->getMessage());
-            return response()->json($message->getMessage(), 401);
-        }
     }
 
     /**
