@@ -57,7 +57,6 @@ class AtenticacaoController extends Controller
         return JWTAuth::refresh($token);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
