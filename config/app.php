@@ -230,5 +230,4 @@ return [
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 
     ],
-
 ];
