@@ -32,7 +32,9 @@ class AtenticacaoController extends Controller
         $credentials = $request->only('email', 'password');
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json('Usuário ou senha inválidos!', 403);
+                return response()->json([
+                    'data' =>  ['msg' => 'Usuário ou senha inválidos!']
+                ], 403);
             }
         } catch (JWTException $e) {
             return response()->json('Falha interna.' . $e->getMessage(), 500);
