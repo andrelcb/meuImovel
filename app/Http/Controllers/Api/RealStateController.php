@@ -18,9 +18,8 @@ class RealStateController extends Controller
 
     public function index()
     {
-//        $realState = $this->realState->paginate('10');
-        $realState = $this->realState->find(3);
-//        echo $realState->created_at;
+       $realState = $this->realState->paginate('10');
+       
         return response()->json($realState, 200);
     }
 

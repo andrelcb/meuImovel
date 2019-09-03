@@ -5,11 +5,12 @@ Route::prefix('v1')->namespace('Api')->group(function () {
         Route::post('/login', 'AtenticacaoController@login');
         Route::post('/logout', 'AtenticacaoController@logout');
         Route::post('/criar', 'AtenticacaoController@store');
+        Route::post('/atualiza', 'AtenticacaoController@refresh');
     });
 });
 
-Route::prefix('v1')->namespace('Api')->middleware('auth:api')->group(function () {
 
+Route::prefix('v1')->namespace('Api')->middleware('jwt.auth')->group(function () {
     Route::name('real_states.')->group(function () {
         Route::resource('real-states', 'RealStateController'); //api/v1/real-state
     });

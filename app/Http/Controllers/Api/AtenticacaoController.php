@@ -34,12 +34,16 @@ class AtenticacaoController extends Controller
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json([
                     'data' =>  ['msg' => 'Usuário ou senha inválidos!']
-                ], 403);
+                ], 401);
             }
         } catch (JWTException $e) {
             return response()->json('Falha interna.' . $e->getMessage(), 500);
         }
-        return response()->json(compact('token'));
+
+        //Pegar o usuários autenticado
+        $user = auth()->user();
+
+        return response()->json(compact('token', 'user'));
     }
 
     /**
