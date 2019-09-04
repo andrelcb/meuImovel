@@ -1,5 +1,14 @@
 <?php
 
+
+
+Route::prefix('v1')->namespace('Auth')->group(function () {
+    Route::post('reset-password', 'ResetPasswordController@resetPassword');
+});
+
+
+
+
 Route::prefix('v1')->namespace('Api')->group(function () {
     Route::prefix('conta')->group(function () {
         Route::post('/login', 'AtenticacaoController@login');

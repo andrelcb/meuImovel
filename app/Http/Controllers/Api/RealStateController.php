@@ -18,8 +18,8 @@ class RealStateController extends Controller
 
     public function index()
     {
-       $realState = $this->realState->paginate('10');
-       
+        $realState = $this->realState->with('user')->paginate('10');
+
         return response()->json($realState, 200);
     }
 
@@ -27,7 +27,8 @@ class RealStateController extends Controller
     {
         try {
             $realState = $this->realState->with('photos')->findOrFail($id);
-            return response()->json([
+            return response()->json(
+                [
                     'data' => $realState
                 ]
             );
@@ -55,7 +56,8 @@ class RealStateController extends Controller
             if (isset($data['categories']) && count($data['categories'])) {
                 $realState->categories()->sync($data['categories']);
             }
-            return response()->json([
+            return response()->json(
+                [
                     'data' => [
                         'msg' => 'Imóvel cadastrado com sucesso',
                     ]
@@ -65,7 +67,6 @@ class RealStateController extends Controller
             $message = new ApiMessages($e->getMessage());
             return response()->json($message->getMessage(), 401);
         }
-
     }
 
     public function update($id, RealStateRequest $request)
@@ -89,7 +90,8 @@ class RealStateController extends Controller
                 $realState->photos()->createMany($imagesUploades);
             }
 
-            return response()->json([
+            return response()->json(
+                [
                     'data' => [
                         'msg' => 'Imóvel atualizado com sucesso',
                     ]
@@ -106,7 +108,8 @@ class RealStateController extends Controller
         try {
             $realState = $this->realState->findOrFail($id);
             $realState->delete();
-            return response()->json([
+            return response()->json(
+                [
                     'data' => [
                         'msg' => 'Imóvel removido com sucesso',
                     ]
